@@ -102,7 +102,7 @@
             font-style: italic;
             color: #4a5568;
         }
-        
+
         /* Typography & Layout */
         section { padding: 60px 0; }
         h3 { font-size: 2rem; margin-bottom: 30px; padding-bottom: 10px; border-bottom: 2px solid var(--border); }
@@ -110,7 +110,7 @@
         p { margin-bottom: 15px; }
         ul { margin-left: 20px; margin-bottom: 15px; }
         li { margin-bottom: 8px; }
-        
+
         /* Grid for Features */
         .features-grid {
             display: grid;
@@ -196,185 +196,253 @@
 </head>
 <body>
 
-    <header>
-        <div class="container nav-container">
-            <a href="#" class="logo">🥤 grew</a>
-            <div class="nav-links">
-                <a href="#features">Features</a>
-                <a href="#install">Install</a>
-                <a href="#commands">Commands</a>
-                <a href="https://github.com/homegrew/grew" target="_blank">GitHub</a>
-            </div>
+<header>
+    <div class="container nav-container">
+        <a href="#" class="logo">🥤 grew</a>
+        <div class="nav-links">
+            <a href="#features">Features</a>
+            <a href="#security">Security</a>
+            <a href="#install">Install</a>
+            <a href="#commands">Commands</a>
+            <a href="https://github.com/homegrew/grew" target="_blank">GitHub</a>
         </div>
-    </header>
+    </div>
+</header>
 
-    <section class="hero">
-        <div class="container">
-            <h1>grew</h1>
-            <h2>A lean, mean, package-managing machine. In Go.</h2>
-            <a href="https://go.dev" target="_blank" class="badge">Go 1.26+</a>
-            
-            <p style="max-width: 600px; margin: 0 auto 30px auto; font-size: 1.1rem;">
-                <code>grew</code> is what happens when you look at your package manager and think: <em>"This could be so much simpler."</em> Deterministic installs. Clean symlinks. A doctor that actually tells you what's wrong. No drama.
-            </p>
+<section class="hero">
+    <div class="container">
+        <h1>grew</h1>
+        <h2>A lean, mean, package-managing machine. In Go.</h2>
+        <a href="https://go.dev" target="_blank" class="badge">Go 1.26+</a>
 
-            <div class="author-quote">
-                <strong>💬 A word from the author:</strong><br><br>
-                "I've been a die-hard Homebrew user for longer than I care to admit. brew and I? We go way back. Late nights, broken PATH, the works — and I loved every minute of it. I love brew so much, in fact, that I thought: 'What if I just… made it better?' Audacious? Absolutely. Foolish? Possibly. Fun? You bet. grew is my love letter to brew — written in Go, with a cheeky grin."
+        <p style="max-width: 600px; margin: 0 auto 30px auto; font-size: 1.1rem;">
+            <code>grew</code> is what happens when you look at your package manager and think: <em>"This could be so much simpler."</em> Deterministic installs. Clean symlinks. A doctor that actually tells you what's wrong. No drama.
+        </p>
+
+        <div class="author-quote">
+            <strong>💬 A word from the author:</strong><br><br>
+            "I've been a die-hard Homebrew user for longer than I care to admit. brew and I? We go way back. Late nights, broken PATH, the works — and I loved every minute of it. I love brew so much, in fact, that I thought: 'What if I just… made it better?' Audacious? Absolutely. Foolish? Possibly. Fun? You bet. grew is my love letter to brew — written in Go, with a cheeky grin."
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <section id="features">
+        <h3>✨ What it does</h3>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div style="font-size: 2rem; margin-bottom: 10px;">📦</div>
+                <p><strong>Formula + cask installs</strong> with SHA256 verification (no funny business)</p>
+            </div>
+            <div class="feature-card">
+                <div style="font-size: 2rem; margin-bottom: 10px;">✍️</div>
+                <p><strong>Ed25519 bottle signing</strong> — cryptographic signatures verified against a local trust store</p>
+            </div>
+            <div class="feature-card">
+                <div style="font-size: 2rem; margin-bottom: 10px;">🔒</div>
+                <p><strong>Sandboxed builds &amp; post-install</strong> — network denied, keg read-only for post-install, minimal env</p>
+            </div>
+            <div class="feature-card">
+                <div style="font-size: 2rem; margin-bottom: 10px;">📋</div>
+                <p><strong>Install snapshots</strong> — per-file SHA256 manifests for tamper detection via <code>grew verify</code></p>
+            </div>
+            <div class="feature-card">
+                <div style="font-size: 2rem; margin-bottom: 10px;">📌</div>
+                <p><strong>Lockfile</strong> — pin exact versions, hashes, and dependency trees for reproducible environments</p>
+            </div>
+            <div class="feature-card">
+                <div style="font-size: 2rem; margin-bottom: 10px;">🔗</div>
+                <p><strong>Deterministic linking</strong> with opt symlinks and dry-run support (look before you link)</p>
+            </div>
+            <div class="feature-card">
+                <div style="font-size: 2rem; margin-bottom: 10px;">🌳</div>
+                <p><strong>Dependency resolver</strong> with an optional tree view (for the visually inclined)</p>
+            </div>
+            <div class="feature-card">
+                <div style="font-size: 2rem; margin-bottom: 10px;">🩺</div>
+                <p><strong>Doctor + audit</strong> — checks perms, HTTPS, broken links, snapshot integrity, and formula quality</p>
+            </div>
+            <div class="feature-card">
+                <div style="font-size: 2rem; margin-bottom: 10px;">🐚</div>
+                <p><strong>Services, aliases, shellenv</strong> — manage daemons, name things your way, wire up your shell</p>
             </div>
         </div>
     </section>
 
-    <div class="container">
-        <section id="features">
-            <h3>✨ What it does</h3>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div style="font-size: 2rem; margin-bottom: 10px;">📦</div>
-                    <p><strong>Formula + cask installs</strong> with SHA256 verification (no funny business)</p>
-                </div>
-                <div class="feature-card">
-                    <div style="font-size: 2rem; margin-bottom: 10px;">🔗</div>
-                    <p><strong>Deterministic linking</strong> with opt symlinks and dry-run support (look before you link)</p>
-                </div>
-                <div class="feature-card">
-                    <div style="font-size: 2rem; margin-bottom: 10px;">🌳</div>
-                    <p><strong>Dependency resolver</strong> with an optional tree view (for the visually inclined)</p>
-                </div>
-                <div class="feature-card">
-                    <div style="font-size: 2rem; margin-bottom: 10px;">🩺</div>
-                    <p><strong>Doctor</strong> that checks perms, HTTPS, broken links, and stale kegs (your package manager has trust issues, and rightfully so)</p>
-                </div>
-                <div class="feature-card">
-                    <div style="font-size: 2rem; margin-bottom: 10px;">🐚</div>
-                    <p><strong>Alias + shellenv helpers</strong> so your workflows stay snappy</p>
-                </div>
-            </div>
-        </section>
+    <section id="install">
+        <h3>🚀 Getting Started</h3>
+        <p><strong>Prerequisites:</strong> Go 1.26+, <code>git</code>, and a dream.</p>
 
-        <section id="install">
-            <h3>🚀 Getting Started</h3>
-            <p><strong>Prerequisites:</strong> Go 1.26+, <code>git</code>, <code>curl</code>, and a dream.</p>
-<pre><code>git clone https://github.com/homegrew/grew.git
+        <h4>1. Build from source</h4>
+        <pre><code>git clone https://github.com/homegrew/grew.git
 cd grew
-go build -o grew .
-./grew help</code></pre>
-            <p><em>That's it. No dark rituals. No 47-step setup guide.</em></p>
+make build          # or: go generate ./internal/... && go build -o grew</code></pre>
 
-            <h4 style="margin-top: 40px;">📖 Usage</h4>
-<pre><code>./grew install jq              # the classic
-./grew install --cask firefox  # going big
-./grew link jq                 # stitch it in
-./grew deps --tree jq          # what hath jq wrought
-./grew upgrade                 # stay fresh
-./grew cleanup -n              # peek before you sweep</code></pre>
-        </section>
+        <h4>2. Set up the prefix</h4>
+        <p>grew needs a home — a directory tree for the Cellar, symlinks, taps, and config:</p>
+        <pre><code># User-local install (no root needed) — installs to ~/.grew
+./grew setup
 
-        <section id="commands">
-            <h3>🗺️ Commands</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Command</th>
-                        <th>What it does</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td><code>install</code></td><td>Install a formula or cask</td></tr>
-                    <tr><td><code>uninstall</code></td><td>Send it to the void</td></tr>
-                    <tr><td><code>list</code></td><td>See what you've collected</td></tr>
-                    <tr><td><code>info</code></td><td>Stalk a package</td></tr>
-                    <tr><td><code>search</code></td><td>Find the thing</td></tr>
-                    <tr><td><code>link</code></td><td>Weave a formula into your PATH</td></tr>
-                    <tr><td><code>unlink</code></td><td>Cut the thread</td></tr>
-                    <tr><td><code>update</code></td><td>Refresh tap definitions</td></tr>
-                    <tr><td><code>upgrade</code></td><td>Get the new hotness</td></tr>
-                    <tr><td><code>outdated</code></td><td>The hall of shame</td></tr>
-                    <tr><td><code>cleanup</code></td><td>Marie Kondo your Cellar</td></tr>
-                    <tr><td><code>deps</code></td><td>Dependency spelunking</td></tr>
-                    <tr><td><code>alias</code></td><td>Name things your way</td></tr>
-                    <tr><td><code>doctor</code></td><td>It's not a bug, it's a misconfiguration</td></tr>
-                    <tr><td><code>config</code></td><td>What grew thinks it knows</td></tr>
-                    <tr><td><code>shellenv</code></td><td>Wire up your shell</td></tr>
-                    <tr><td><code>help</code></td><td>You got this</td></tr>
-                </tbody>
-            </table>
-        </section>
+# System install (recommended — isolates builds from $HOME)
+sudo ./grew setup   # macOS ARM → /opt/grew, Intel/Linux → /usr/local/grew</code></pre>
+        <p>The system prefix is more secure: sandboxed source builds can't reach <code>~/.ssh</code>, <code>~/.gnupg</code>, or other sensitive dotfiles.</p>
 
-        <section id="config">
-            <h3>⚙️ Configuration</h3>
-            <p>grew keeps its stuff tidy under one roof. Tweak it with env vars:</p>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Variable</th>
-                        <th>Default</th>
-                        <th>What it is</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td><code>GREW_PREFIX</code></td><td><code>~/.grew</code></td><td>The kingdom</td></tr>
-                    <tr><td><code>GREW_APPDIR</code></td><td><code>~/Applications</code></td><td>Where casks live</td></tr>
-                </tbody>
-            </table>
+        <h4>3. Wire up your shell</h4>
+        <pre><code># bash (~/.bashrc) or zsh (~/.zshrc)
+eval "$(grew shellenv)"
 
-            <h4>Directory Structure</h4>
-            <p>Everything else flows from the prefix:</p>
-<pre><code>~/.grew/
-├── Cellar/   ← installed packages
-├── Taps/     ← formula definitions
-├── bin/      ← symlinked binaries
-└── tmp/      ← ephemeral stuff</code></pre>
+# fish (~/.config/fish/config.fish)
+grew shellenv fish | source</code></pre>
 
-            <h4>Shell setup (pick your flavour):</h4>
-<pre><code># bash / zsh
-eval "$(./grew shellenv)"
+        <h4>4. Install something</h4>
+        <pre><code>grew install jq                # the classic
+grew install -s ldns           # build from source, like a purist
+grew install --cask firefox    # going big</code></pre>
+        <p><em>That's it. No dark rituals. No 47-step setup guide.</em></p>
 
-# fish
-./grew shellenv fish | source</code></pre>
-        </section>
+        <h4 style="margin-top: 40px;">📖 Day-to-day usage</h4>
+        <pre><code>grew link jq                   # stitch it in
+grew deps --tree jq            # what hath jq wrought
+grew upgrade                   # stay fresh
+grew cleanup -n                # peek before you sweep
+grew verify jq                 # check installed files against manifest
+grew lock                      # pin your environment
+grew audit --strict            # lint your formulas
+grew doctor                    # check for common problems</code></pre>
+    </section>
 
-        <div class="bottom-grid">
-            <div>
-                <h4 style="margin-top: 0;">🛠️ Development</h4>
-                <p><code>go test ./...</code></p>
-                <p><strong>Project layout:</strong></p>
-<pre style="padding: 10px; font-size: 0.8rem;"><code>grew/
-├── cmd/   ← CLI commands
-├── pkg/   ← internals & guts
-└── taps/  ← formulas & casks</code></pre>
-            </div>
-            
-            <div>
-                <h4 style="margin-top: 0;">🤝 Contributing</h4>
-                <ol style="margin-left: 20px;">
-                    <li>Fork it</li>
-                    <li>Branch it (<code>git checkout -b feature/cool-thing</code>)</li>
-                    <li>Commit it</li>
-                    <li>Push it</li>
-                    <li>PR it</li>
-                </ol>
-                <p><em>PRs welcome. Drama not so much.</em></p>
-            </div>
+    <section id="commands">
+        <h3>🗺️ Commands</h3>
+        <table>
+            <thead>
+            <tr>
+                <th>Command</th>
+                <th>What it does</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td><code>install</code></td><td>Install a formula or cask (<code>-s</code> to build from source)</td></tr>
+            <tr><td><code>uninstall</code></td><td>Send it to the void</td></tr>
+            <tr><td><code>reinstall</code></td><td>Uninstall + install from scratch</td></tr>
+            <tr><td><code>list</code></td><td>See what you've collected</td></tr>
+            <tr><td><code>info</code></td><td>Stalk a package</td></tr>
+            <tr><td><code>search</code></td><td>Find the thing</td></tr>
+            <tr><td><code>link</code></td><td>Weave a formula into your PATH</td></tr>
+            <tr><td><code>unlink</code></td><td>Cut the thread</td></tr>
+            <tr><td><code>update</code></td><td>Refresh tap definitions</td></tr>
+            <tr><td><code>upgrade</code></td><td>Get the new hotness</td></tr>
+            <tr><td><code>outdated</code></td><td>The hall of shame</td></tr>
+            <tr><td><code>cleanup</code></td><td>Marie Kondo your Cellar</td></tr>
+            <tr><td><code>deps</code></td><td>Dependency spelunking</td></tr>
+            <tr><td><code>verify</code></td><td>Check installed packages against their snapshot manifests</td></tr>
+            <tr><td><code>audit</code></td><td>Lint formula/cask definitions for quality and security</td></tr>
+            <tr><td><code>lock</code></td><td>Generate, check, or show a reproducible lockfile</td></tr>
+            <tr><td><code>sign</code></td><td>Sign formula SHA256 hashes with an Ed25519 key</td></tr>
+            <tr><td><code>services</code></td><td>Manage background services (start, stop, restart, list)</td></tr>
+            <tr><td><code>setup</code></td><td>One-time prefix setup (user-local or system-wide with sudo)</td></tr>
+            <tr><td><code>alias</code></td><td>Name things your way</td></tr>
+            <tr><td><code>doctor</code></td><td>It's not a bug, it's a misconfiguration</td></tr>
+            <tr><td><code>config</code></td><td>What grew thinks it knows</td></tr>
+            <tr><td><code>shellenv</code></td><td>Wire up your shell</td></tr>
+            <tr><td><code>help</code></td><td>You got this</td></tr>
+            </tbody>
+        </table>
+    </section>
 
-            <div>
-                <h4 style="margin-top: 0;">📬 Links & Info</h4>
-                <ul>
-                    <li><a href="https://github.com/homegrew/grew/issues">Open an issue / Roadmap</a></li>
-                    <li><a href="https://github.com/homegrew/grew">Project on GitHub</a></li>
-                </ul>
-                <p><strong>Acknowledgments:</strong> Best-README-Template, and everyone who ever squinted at a wall of package manager output and thought <em>"there has to be a better way"</em>.</p>
-                <p><strong>License:</strong> (Add a LICENSE to your repo!)</p>
-            </div>
+    <section id="config">
+        <h3>⚙️ Configuration</h3>
+        <p>grew keeps its stuff tidy under one roof. Tweak it with env vars:</p>
+        <table>
+            <thead>
+            <tr>
+                <th>Variable</th>
+                <th>Default</th>
+                <th>What it is</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td><code>HOMEGREW_PREFIX</code></td><td><code>~/.grew</code></td><td>The kingdom</td></tr>
+            <tr><td><code>HOMEGREW_APPDIR</code></td><td><code>~/Applications</code></td><td>Where casks live</td></tr>
+            <tr><td><code>HOMEGREW_TAP_VERIFY</code></td><td><code>off</code></td><td>Tap commit signature policy (<code>off</code>, <code>warn</code>, <code>strict</code>)</td></tr>
+            <tr><td><code>HOMEGREW_NO_INSTALL_FROM_API</code></td><td><em>(unset)</em></td><td>Force git clone instead of API tarball for taps</td></tr>
+            </tbody>
+        </table>
+
+        <h4>Directory Structure</h4>
+        <p>Everything flows from the prefix:</p>
+        <pre><code>~/.grew/
+├── Cellar/        ← installed packages (each keg has a .MANIFEST.json)
+├── Taps/          ← formula definitions (git-cloned or API-fetched)
+├── bin/           ← symlinked binaries
+├── etc/           ← trusted-keys (Ed25519 public keys, one per line)
+├── tmp/           ← ephemeral stuff
+└── grew.lock      ← lockfile (opt-in, created by `grew lock`)</code></pre>
+    </section>
+
+    <section id="security">
+        <h3>🔐 Security: grew vs Homebrew</h3>
+        <p>grew is designed to be more secure than Homebrew out of the box:</p>
+        <table>
+            <thead>
+            <tr>
+                <th>Feature</th>
+                <th>grew</th>
+                <th>Homebrew</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td><strong>Bottle signing</strong></td><td>Ed25519 signatures verified against local trust store</td><td>None — HTTPS + SHA256 only</td></tr>
+            <tr><td><strong>Tap verification</strong></td><td>Optional GPG/SSH commit signature enforcement</td><td>None</td></tr>
+            <tr><td><strong>Post-install sandbox</strong></td><td>Read-only keg, no network, minimal env</td><td>Unsandboxed</td></tr>
+            <tr><td><strong>Source build sandbox</strong></td><td>macOS Seatbelt / Linux bwrap+unshare, no network</td><td>macOS Seatbelt only, no Linux</td></tr>
+            <tr><td><strong>Install manifests</strong></td><td>Per-file SHA256 snapshot at install time</td><td>None</td></tr>
+            <tr><td><strong>Lockfile</strong></td><td>Full dependency tree with hashes</td><td>None</td></tr>
+            <tr><td><strong>Integrity check</strong></td><td><code>grew verify</code> + <code>grew doctor</code> snapshot check</td><td>None</td></tr>
+            <tr><td><strong>HTTPS enforcement</strong></td><td>At parse time — HTTP URLs rejected before download</td><td>At download time</td></tr>
+            </tbody>
+        </table>
+        <p><strong>Gradual rollout:</strong> signature verification doesn't block installs until you add keys to <code>etc/trusted-keys</code>. Tap verification is opt-in via <code>HOMEGREW_TAP_VERIFY</code>. Adopt security features at your own pace.</p>
+    </section>
+
+    <div class="bottom-grid">
+        <div>
+            <h4 style="margin-top: 0;">🛠️ Development</h4>
+            <pre style="padding: 10px; font-size: 0.8rem;"><code>make check  # go test -v -race ./...
+make build  # go generate + go build
+make lint   # golangci-lint</code></pre>
+            <p><strong>Project layout:</strong> all packages under <code>internal/</code> — cmd, cellar, formula, cask, linker, depgraph, downloader, tap, sandbox, signing, snapshot, lockfile, service, config, validation, version.</p>
         </div>
 
+        <div>
+            <h4 style="margin-top: 0;">🤝 Contributing</h4>
+            <ol style="margin-left: 20px;">
+                <li>Fork it</li>
+                <li>Branch it (<code>git checkout -b feature/cool-thing</code>)</li>
+                <li>Commit it</li>
+                <li>Push it</li>
+                <li>PR it</li>
+            </ol>
+            <p><em>PRs welcome. Drama not so much.</em></p>
+        </div>
+
+        <div>
+            <h4 style="margin-top: 0;">📬 Links & Info</h4>
+            <ul>
+                <li><a href="https://github.com/homegrew/grew/issues">Open an issue / Roadmap</a></li>
+                <li><a href="https://github.com/homegrew/grew">Project on GitHub</a></li>
+            </ul>
+            <p><strong>Acknowledgments:</strong> Best-README-Template, and everyone who ever squinted at a wall of package manager output and thought <em>"there has to be a better way"</em>.</p>
+            <p><strong>License:</strong> (Add a LICENSE to your repo!)</p>
+        </div>
     </div>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2026 Homegrew. Built with 🥤 and Go.</p>
-        </div>
-    </footer>
+</div>
+
+<footer>
+    <div class="container">
+        <p>&copy; 2026 Homegrew. Built with 🥤 and Go.</p>
+    </div>
+</footer>
 
 </body>
 </html>
