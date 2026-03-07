@@ -3,187 +3,378 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>grew</title>
+    <title>grew | A lean, mean, package-managing machine</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --go-blue: #00ADD8;
+            --go-blue-dark: #008eb3;
+            --text-main: #24292e;
+            --text-muted: #586069;
+            --bg-page: #f9fbfc;
+            --bg-section: #ffffff;
+            --border: #e1e4e8;
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            color: #1a1a2e;
-            background: #f8f9fa;
             line-height: 1.6;
-        }
-
-        header {
-            background: linear-gradient(135deg, #0f3460, #16213e);
-            color: #fff;
-            padding: 5rem 2rem;
-            text-align: center;
-        }
-
-        header h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            margin-bottom: 0.5rem;
-        }
-
-        header p {
-            font-size: 1.25rem;
-            opacity: 0.85;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        nav {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        nav a {
-            color: #fff;
-            text-decoration: none;
-            padding: 0.6rem 1.4rem;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 6px;
-            font-size: 0.95rem;
-            transition: background 0.2s, border-color 0.2s;
-        }
-
-        nav a:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.6);
+            color: var(--text-main);
+            background-color: var(--bg-page);
         }
 
         .container {
-            max-width: 960px;
+            max-width: 1000px;
             margin: 0 auto;
-            padding: 4rem 2rem;
+            padding: 0 20px;
         }
 
-        .section-title {
-            font-size: 1.75rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
+        /* Header */
+        header {
+            background-color: var(--bg-section);
+            border-bottom: 1px solid var(--border);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-main);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .nav-links a {
+            margin-left: 20px;
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--go-blue); }
+
+        /* Hero */
+        .hero {
             text-align: center;
+            padding: 80px 20px;
+            background-color: var(--bg-section);
+            border-bottom: 1px solid var(--border);
         }
-
-        .features {
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+        }
+        .hero h2 {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            font-weight: 400;
+            margin-bottom: 30px;
+        }
+        .badge {
+            display: inline-block;
+            background-color: var(--go-blue);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-bottom: 30px;
+            text-decoration: none;
+        }
+        .author-quote {
+            max-width: 700px;
+            margin: 0 auto 40px auto;
+            background: #f1f8ff;
+            border-left: 4px solid var(--go-blue);
+            padding: 20px;
+            text-align: left;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+            color: #4a5568;
+        }
+        
+        /* Typography & Layout */
+        section { padding: 60px 0; }
+        h3 { font-size: 2rem; margin-bottom: 30px; padding-bottom: 10px; border-bottom: 2px solid var(--border); }
+        h4 { font-size: 1.2rem; margin: 20px 0 10px 0; }
+        p { margin-bottom: 15px; }
+        ul { margin-left: 20px; margin-bottom: 15px; }
+        li { margin-bottom: 8px; }
+        
+        /* Grid for Features */
+        .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
         }
-
         .feature-card {
-            background: #fff;
-            border-radius: 10px;
-            padding: 2rem;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-            transition: transform 0.2s, box-shadow 0.2s;
+            background: var(--bg-section);
+            padding: 25px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
+        .feature-card strong { color: var(--go-blue); }
 
-        .feature-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .feature-card h3 {
-            font-size: 1.15rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .feature-card p {
-            color: #555;
-            font-size: 0.95rem;
-        }
-
-        .getting-started {
-            background: #fff;
-            border-radius: 10px;
-            padding: 2.5rem;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-            margin-top: 2rem;
-        }
-
-        .getting-started pre {
-            background: #1a1a2e;
-            color: #e0e0e0;
-            padding: 1.25rem;
+        /* Terminal/Code Blocks */
+        pre {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
             border-radius: 8px;
             overflow-x: auto;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
             font-size: 0.9rem;
-            line-height: 1.8;
-            margin-top: 1rem;
+            margin-bottom: 20px;
+            border: 1px solid #000;
+            box-shadow: inset 0 1px 4px rgba(0,0,0,0.5);
+        }
+        code {
+            font-family: inherit;
+        }
+        p code, li code, td code {
+            background-color: rgba(27,31,35,0.05);
+            color: #e36209;
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            font-size: 0.9em;
         }
 
-        .getting-started code {
-            font-family: "SF Mono", "Fira Code", "Cascadia Code", Menlo, monospace;
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            background: var(--bg-section);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        th {
+            background-color: #f6f8fa;
+            font-weight: 600;
+        }
+        tr:last-child td { border-bottom: none; }
+
+        /* Multi-column layout for smaller sections */
+        .bottom-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            background: var(--bg-section);
+            padding: 40px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            margin-top: 40px;
         }
 
         footer {
             text-align: center;
-            padding: 2rem;
-            color: #888;
-            font-size: 0.85rem;
-            border-top: 1px solid #e5e5e5;
+            padding: 40px 0;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            margin-top: 40px;
         }
+        a { color: var(--go-blue); text-decoration: none; }
+        a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
+
     <header>
-        <h1>grew</h1>
-        <p>A modern Go project built for speed, simplicity, and reliability.</p>
-        <nav>
-            <a href="#features">Features</a>
-            <a href="#getting-started">Get Started</a>
-            <a href="https://go.dev/doc/" target="_blank" rel="noopener">Go Docs</a>
-        </nav>
+        <div class="container nav-container">
+            <a href="#" class="logo">🥤 grew</a>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#install">Install</a>
+                <a href="#commands">Commands</a>
+                <a href="https://github.com/homegrew/grew" target="_blank">GitHub</a>
+            </div>
+        </div>
     </header>
 
-    <section id="features" class="container">
-        <h2 class="section-title">Features</h2>
-        <div class="features">
-            <div class="feature-card">
-                <h3>Fast by Default</h3>
-                <p>Written in Go for blazing-fast execution with minimal resource usage and native concurrency support.</p>
-            </div>
-            <div class="feature-card">
-                <h3>Simple & Minimal</h3>
-                <p>Clean project structure with no unnecessary dependencies. Easy to understand, extend, and maintain.</p>
-            </div>
-            <div class="feature-card">
-                <h3>Well Tested</h3>
-                <p>Comprehensive test coverage using Go's built-in testing framework. Run tests with a single command.</p>
+    <section class="hero">
+        <div class="container">
+            <h1>grew</h1>
+            <h2>A lean, mean, package-managing machine. In Go.</h2>
+            <a href="https://go.dev" target="_blank" class="badge">Go 1.26+</a>
+            
+            <p style="max-width: 600px; margin: 0 auto 30px auto; font-size: 1.1rem;">
+                <code>grew</code> is what happens when you look at your package manager and think: <em>"This could be so much simpler."</em> Deterministic installs. Clean symlinks. A doctor that actually tells you what's wrong. No drama.
+            </p>
+
+            <div class="author-quote">
+                <strong>💬 A word from the author:</strong><br><br>
+                "I've been a die-hard Homebrew user for longer than I care to admit. brew and I? We go way back. Late nights, broken PATH, the works — and I loved every minute of it. I love brew so much, in fact, that I thought: 'What if I just… made it better?' Audacious? Absolutely. Foolish? Possibly. Fun? You bet. grew is my love letter to brew — written in Go, with a cheeky grin."
             </div>
         </div>
     </section>
 
-    <section id="getting-started" class="container">
-        <h2 class="section-title">Getting Started</h2>
-        <div class="getting-started">
-            <p>Clone the repository and build the project in seconds:</p>
-            <pre><code># Clone the repo
-git clone https://github.com/your-username/grew.git
+    <div class="container">
+        <section id="features">
+            <h3>✨ What it does</h3>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div style="font-size: 2rem; margin-bottom: 10px;">📦</div>
+                    <p><strong>Formula + cask installs</strong> with SHA256 verification (no funny business)</p>
+                </div>
+                <div class="feature-card">
+                    <div style="font-size: 2rem; margin-bottom: 10px;">🔗</div>
+                    <p><strong>Deterministic linking</strong> with opt symlinks and dry-run support (look before you link)</p>
+                </div>
+                <div class="feature-card">
+                    <div style="font-size: 2rem; margin-bottom: 10px;">🌳</div>
+                    <p><strong>Dependency resolver</strong> with an optional tree view (for the visually inclined)</p>
+                </div>
+                <div class="feature-card">
+                    <div style="font-size: 2rem; margin-bottom: 10px;">🩺</div>
+                    <p><strong>Doctor</strong> that checks perms, HTTPS, broken links, and stale kegs (your package manager has trust issues, and rightfully so)</p>
+                </div>
+                <div class="feature-card">
+                    <div style="font-size: 2rem; margin-bottom: 10px;">🐚</div>
+                    <p><strong>Alias + shellenv helpers</strong> so your workflows stay snappy</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="install">
+            <h3>🚀 Getting Started</h3>
+            <p><strong>Prerequisites:</strong> Go 1.26+, <code>git</code>, <code>curl</code>, and a dream.</p>
+<pre><code>git clone https://github.com/homegrew/grew.git
 cd grew
+go build -o grew .
+./grew help</code></pre>
+            <p><em>That's it. No dark rituals. No 47-step setup guide.</em></p>
 
-# Initialize and build
-go mod tidy
-go build ./...
+            <h4 style="margin-top: 40px;">📖 Usage</h4>
+<pre><code>./grew install jq              # the classic
+./grew install --cask firefox  # going big
+./grew link jq                 # stitch it in
+./grew deps --tree jq          # what hath jq wrought
+./grew upgrade                 # stay fresh
+./grew cleanup -n              # peek before you sweep</code></pre>
+        </section>
 
-# Run tests
-go test ./...</code></pre>
+        <section id="commands">
+            <h3>🗺️ Commands</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Command</th>
+                        <th>What it does</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>install</code></td><td>Install a formula or cask</td></tr>
+                    <tr><td><code>uninstall</code></td><td>Send it to the void</td></tr>
+                    <tr><td><code>list</code></td><td>See what you've collected</td></tr>
+                    <tr><td><code>info</code></td><td>Stalk a package</td></tr>
+                    <tr><td><code>search</code></td><td>Find the thing</td></tr>
+                    <tr><td><code>link</code></td><td>Weave a formula into your PATH</td></tr>
+                    <tr><td><code>unlink</code></td><td>Cut the thread</td></tr>
+                    <tr><td><code>update</code></td><td>Refresh tap definitions</td></tr>
+                    <tr><td><code>upgrade</code></td><td>Get the new hotness</td></tr>
+                    <tr><td><code>outdated</code></td><td>The hall of shame</td></tr>
+                    <tr><td><code>cleanup</code></td><td>Marie Kondo your Cellar</td></tr>
+                    <tr><td><code>deps</code></td><td>Dependency spelunking</td></tr>
+                    <tr><td><code>alias</code></td><td>Name things your way</td></tr>
+                    <tr><td><code>doctor</code></td><td>It's not a bug, it's a misconfiguration</td></tr>
+                    <tr><td><code>config</code></td><td>What grew thinks it knows</td></tr>
+                    <tr><td><code>shellenv</code></td><td>Wire up your shell</td></tr>
+                    <tr><td><code>help</code></td><td>You got this</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="config">
+            <h3>⚙️ Configuration</h3>
+            <p>grew keeps its stuff tidy under one roof. Tweak it with env vars:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Variable</th>
+                        <th>Default</th>
+                        <th>What it is</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>GREW_PREFIX</code></td><td><code>~/.grew</code></td><td>The kingdom</td></tr>
+                    <tr><td><code>GREW_APPDIR</code></td><td><code>~/Applications</code></td><td>Where casks live</td></tr>
+                </tbody>
+            </table>
+
+            <h4>Directory Structure</h4>
+            <p>Everything else flows from the prefix:</p>
+<pre><code>~/.grew/
+├── Cellar/   ← installed packages
+├── Taps/     ← formula definitions
+├── bin/      ← symlinked binaries
+└── tmp/      ← ephemeral stuff</code></pre>
+
+            <h4>Shell setup (pick your flavour):</h4>
+<pre><code># bash / zsh
+eval "$(./grew shellenv)"
+
+# fish
+./grew shellenv fish | source</code></pre>
+        </section>
+
+        <div class="bottom-grid">
+            <div>
+                <h4 style="margin-top: 0;">🛠️ Development</h4>
+                <p><code>go test ./...</code></p>
+                <p><strong>Project layout:</strong></p>
+<pre style="padding: 10px; font-size: 0.8rem;"><code>grew/
+├── cmd/   ← CLI commands
+├── pkg/   ← internals & guts
+└── taps/  ← formulas & casks</code></pre>
+            </div>
+            
+            <div>
+                <h4 style="margin-top: 0;">🤝 Contributing</h4>
+                <ol style="margin-left: 20px;">
+                    <li>Fork it</li>
+                    <li>Branch it (<code>git checkout -b feature/cool-thing</code>)</li>
+                    <li>Commit it</li>
+                    <li>Push it</li>
+                    <li>PR it</li>
+                </ol>
+                <p><em>PRs welcome. Drama not so much.</em></p>
+            </div>
+
+            <div>
+                <h4 style="margin-top: 0;">📬 Links & Info</h4>
+                <ul>
+                    <li><a href="https://github.com/homegrew/grew/issues">Open an issue / Roadmap</a></li>
+                    <li><a href="https://github.com/homegrew/grew">Project on GitHub</a></li>
+                </ul>
+                <p><strong>Acknowledgments:</strong> Best-README-Template, and everyone who ever squinted at a wall of package manager output and thought <em>"there has to be a better way"</em>.</p>
+                <p><strong>License:</strong> (Add a LICENSE to your repo!)</p>
+            </div>
         </div>
-    </section>
+
+    </div>
 
     <footer>
-        <p>grew &mdash; Built with Go</p>
+        <div class="container">
+            <p>&copy; 2026 Homegrew. Built with 🥤 and Go.</p>
+        </div>
     </footer>
+
 </body>
 </html>
