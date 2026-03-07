@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>grew</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: #1a1a2e;
+            background: #f8f9fa;
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, #0f3460, #16213e);
+            color: #fff;
+            padding: 5rem 2rem;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.25rem;
+            opacity: 0.85;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 0.6rem 1.4rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            font-size: 0.95rem;
+            transition: background 0.2s, border-color 0.2s;
+        }
+
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-card h3 {
+            font-size: 1.15rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card p {
+            color: #555;
+            font-size: 0.95rem;
+        }
+
+        .getting-started {
+            background: #fff;
+            border-radius: 10px;
+            padding: 2.5rem;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            margin-top: 2rem;
+        }
+
+        .getting-started pre {
+            background: #1a1a2e;
+            color: #e0e0e0;
+            padding: 1.25rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            line-height: 1.8;
+            margin-top: 1rem;
+        }
+
+        .getting-started code {
+            font-family: "SF Mono", "Fira Code", "Cascadia Code", Menlo, monospace;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: #888;
+            font-size: 0.85rem;
+            border-top: 1px solid #e5e5e5;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>grew</h1>
+        <p>A modern Go project built for speed, simplicity, and reliability.</p>
+        <nav>
+            <a href="#features">Features</a>
+            <a href="#getting-started">Get Started</a>
+            <a href="https://go.dev/doc/" target="_blank" rel="noopener">Go Docs</a>
+        </nav>
+    </header>
+
+    <section id="features" class="container">
+        <h2 class="section-title">Features</h2>
+        <div class="features">
+            <div class="feature-card">
+                <h3>Fast by Default</h3>
+                <p>Written in Go for blazing-fast execution with minimal resource usage and native concurrency support.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Simple & Minimal</h3>
+                <p>Clean project structure with no unnecessary dependencies. Easy to understand, extend, and maintain.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Well Tested</h3>
+                <p>Comprehensive test coverage using Go's built-in testing framework. Run tests with a single command.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="getting-started" class="container">
+        <h2 class="section-title">Getting Started</h2>
+        <div class="getting-started">
+            <p>Clone the repository and build the project in seconds:</p>
+            <pre><code># Clone the repo
+git clone https://github.com/your-username/grew.git
+cd grew
+
+# Initialize and build
+go mod tidy
+go build ./...
+
+# Run tests
+go test ./...</code></pre>
+        </div>
+    </section>
+
+    <footer>
+        <p>grew &mdash; Built with Go</p>
+    </footer>
+</body>
+</html>
