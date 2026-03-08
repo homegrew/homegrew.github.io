@@ -260,7 +260,15 @@
             </div>
             <div class="feature-card">
                 <div style="font-size: 2rem; margin-bottom: 10px;">🩺</div>
-                <p><strong>Doctor + audit</strong> — checks perms, HTTPS, broken links, snapshot integrity, and formula quality</p>
+                <p><strong>Doctor + audit</strong> — checks perms, HTTPS, broken links, snapshot integrity, cask notarization, and formula quality</p>
+            </div>
+            <div class="feature-card">
+                <div style="font-size: 2rem; margin-bottom: 10px;">🛡️</div>
+                <p><strong>Hardened command execution</strong> — POSIX shell quoting via <a href="https://pkg.go.dev/al.essio.dev/pkg/shellescape">shellescape</a>, <code>--</code> end-of-options on all external commands, XML-safe plists, systemd specifier escaping</p>
+            </div>
+            <div class="feature-card">
+                <div style="font-size: 2rem; margin-bottom: 10px;">🧱</div>
+                <p><strong>Zip Slip protection</strong> — archive extraction validates symlink indirection to prevent writes outside the destination directory</p>
             </div>
             <div class="feature-card">
                 <div style="font-size: 2rem; margin-bottom: 10px;">🐚</div>
@@ -271,9 +279,15 @@
 
     <section id="install">
         <h3>🚀 Getting Started</h3>
-        <p><strong>Prerequisites:</strong> Go 1.26+, <code>git</code>, and a dream.</p>
 
-        <h4>1. Build from source</h4>
+        <h4>1. Get grew</h4>
+        <p>The fastest way — downloads the latest release binary with SHA256 verification:</p>
+        <pre><code>go install github.com/homegrew/grew/tools/getgrew@latest
+getgrew
+sudo ./grew setup</code></pre>
+
+        <h4>Or build from source</h4>
+        <p><strong>Prerequisites:</strong> Go 1.26+, <code>git</code>, and a dream.</p>
         <pre><code>git clone https://github.com/homegrew/grew.git
 cd grew
 make build          # or: go generate ./internal/... && go build -o grew</code></pre>
@@ -399,6 +413,10 @@ grew doctor                    # check for common problems</code></pre>
             <tr><td><strong>Lockfile</strong></td><td>Full dependency tree with hashes</td><td>None</td></tr>
             <tr><td><strong>Integrity check</strong></td><td><code>grew verify</code> + <code>grew doctor</code> snapshot check</td><td>None</td></tr>
             <tr><td><strong>HTTPS enforcement</strong></td><td>At parse time — HTTP URLs rejected before download</td><td>At download time</td></tr>
+            <tr><td><strong>Path traversal protection</strong></td><td>Validated at cellar, linker, loader, and archive extraction layers</td><td>Partial</td></tr>
+            <tr><td><strong>Shell injection prevention</strong></td><td>POSIX shell quoting via <a href="https://pkg.go.dev/al.essio.dev/pkg/shellescape">shellescape</a> for sandbox scripts; systemd and launchd values properly escaped</td><td>N/A</td></tr>
+            <tr><td><strong>Zip Slip protection</strong></td><td>Symlink indirection attacks blocked during tar/zip extraction</td><td>Partial</td></tr>
+            <tr><td><strong>Command argument hardening</strong></td><td><code>--</code> end-of-options on all external commands (<code>git</code>, <code>systemctl</code>, <code>launchctl</code>, <code>hdiutil</code>, <code>tar</code>, etc.)</td><td>Not consistently applied</td></tr>
             </tbody>
         </table>
         <p><strong>Gradual rollout:</strong> signature verification doesn't block installs until you add keys to <code>etc/trusted-keys</code>. Tap verification is opt-in via <code>HOMEGREW_TAP_VERIFY</code>. Adopt security features at your own pace.</p>
@@ -410,7 +428,7 @@ grew doctor                    # check for common problems</code></pre>
             <pre style="padding: 10px; font-size: 0.8rem;"><code>make check  # go test -v -race ./...
 make build  # go generate + go build
 make lint   # golangci-lint</code></pre>
-            <p><strong>Project layout:</strong> all packages under <code>internal/</code> — cmd, cellar, formula, cask, linker, depgraph, downloader, tap, sandbox, signing, snapshot, lockfile, service, config, validation, version.</p>
+            <p><strong>Project layout:</strong> packages under <code>internal/</code> (cmd, cellar, formula, cask, linker, depgraph, downloader, tap, sandbox, signing, snapshot, lockfile, service, config, version) and <code>pkg/</code> (validation).</p>
         </div>
 
         <div>
