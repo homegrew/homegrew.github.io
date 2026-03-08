@@ -284,7 +284,7 @@
         <p>The fastest way — downloads the latest release binary with SHA256 verification:</p>
         <pre><code>go install github.com/homegrew/grew/tools/getgrew@latest
 getgrew
-sudo ./grew setup</code></pre>
+sudo grew setup</code></pre>
 
         <h4>Or build from source</h4>
         <p><strong>Prerequisites:</strong> Go 1.26+, <code>git</code>, and a dream.</p>
@@ -298,7 +298,7 @@ make build          # or: go generate ./internal/... && go build -o grew</code><
 ./grew setup
 
 # System install (recommended — isolates builds from $HOME)
-sudo ./grew setup   # macOS ARM → /opt/grew, Intel/Linux → /usr/local/grew</code></pre>
+sudo grew setup   # macOS ARM → /opt/grew, Intel/Linux → /usr/local/grew</code></pre>
         <p>The system prefix is more secure: sandboxed source builds can't reach <code>~/.ssh</code>, <code>~/.gnupg</code>, or other sensitive dotfiles.</p>
 
         <h4>3. Wire up your shell</h4>
