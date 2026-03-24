@@ -263,12 +263,20 @@
                 <p><strong>Doctor + audit</strong> — checks perms, HTTPS, broken links, snapshot integrity, cask notarization, and formula quality</p>
             </div>
             <div class="feature-card">
+                <div style="font-size: 2rem; margin-bottom: 10px;">🔍</div>
+                <p><strong>Vulnerability scanning</strong> — queries OSV.dev for known CVEs, checks signatures, permissions, and file integrity</p>
+            </div>
+            <div class="feature-card">
                 <div style="font-size: 2rem; margin-bottom: 10px;">🛡️</div>
                 <p><strong>Hardened command execution</strong> — POSIX shell quoting via <a href="https://pkg.go.dev/al.essio.dev/pkg/shellescape">shellescape</a>, <code>--</code> end-of-options on all external commands, XML-safe plists, systemd specifier escaping</p>
             </div>
             <div class="feature-card">
                 <div style="font-size: 2rem; margin-bottom: 10px;">🧱</div>
                 <p><strong>Zip Slip protection</strong> — archive extraction validates symlink indirection to prevent writes outside the destination directory</p>
+            </div>
+            <div class="feature-card">
+                <div style="font-size: 2rem; margin-bottom: 10px;">🪵</div>
+                <p><strong>Structured logging</strong> via <code>log/slog</code> with CLI-friendly output — DEBUG, INFO, WARN, ERROR levels controlled by <code>-v</code>/<code>-d</code> flags</p>
             </div>
             <div class="feature-card">
                 <div style="font-size: 2rem; margin-bottom: 10px;">🐚</div>
@@ -294,12 +302,8 @@ make build          # or: go generate ./internal/... && go build -o grew</code><
 
         <h4>2. Set up the prefix</h4>
         <p>grew needs a home — a directory tree for the Cellar, symlinks, taps, and config:</p>
-        <pre><code># User-local install (no root needed) — installs to ~/.grew
-./grew setup
-
-# System install (recommended — isolates builds from $HOME)
-sudo grew setup   # macOS ARM → /opt/grew, Intel/Linux → /usr/local/grew</code></pre>
-        <p>The system prefix is more secure: sandboxed source builds can't reach <code>~/.ssh</code>, <code>~/.gnupg</code>, or other sensitive dotfiles.</p>
+        <pre><code>sudo ./grew setup   # macOS ARM → /opt/homegrew, Intel/Linux → /usr/local/homegrew</code></pre>
+        <p>The system prefix isolates sandboxed builds from <code>$HOME</code>, preventing them from reaching <code>~/.ssh</code>, <code>~/.gnupg</code>, or other sensitive dotfiles. After setup, ownership is transferred to your user — no root needed at runtime.</p>
 
         <h4>3. Wire up your shell</h4>
         <pre><code># bash (~/.bashrc) or zsh (~/.zshrc)
@@ -320,6 +324,7 @@ grew deps --tree jq            # what hath jq wrought
 grew upgrade                   # stay fresh
 grew cleanup -n                # peek before you sweep
 grew verify jq                 # check installed files against manifest
+grew vuln-scan                 # scan for CVEs and integrity issues
 grew lock                      # pin your environment
 grew audit --strict            # lint your formulas
 grew doctor                    # check for common problems</code></pre>
@@ -349,13 +354,16 @@ grew doctor                    # check for common problems</code></pre>
             <tr><td><code>cleanup</code></td><td>Marie Kondo your Cellar</td></tr>
             <tr><td><code>deps</code></td><td>Dependency spelunking</td></tr>
             <tr><td><code>verify</code></td><td>Check installed packages against their snapshot manifests</td></tr>
+            <tr><td><code>vuln-scan</code></td><td>Scan installed packages for security vulnerabilities</td></tr>
             <tr><td><code>audit</code></td><td>Lint formula/cask definitions for quality and security</td></tr>
             <tr><td><code>lock</code></td><td>Generate, check, or show a reproducible lockfile</td></tr>
             <tr><td><code>sign</code></td><td>Sign formula SHA256 hashes with an Ed25519 key</td></tr>
             <tr><td><code>services</code></td><td>Manage background services (start, stop, restart, list)</td></tr>
-            <tr><td><code>setup</code></td><td>One-time prefix setup (user-local or system-wide with sudo)</td></tr>
+            <tr><td><code>setup</code></td><td>One-time prefix setup (requires sudo)</td></tr>
             <tr><td><code>alias</code></td><td>Name things your way</td></tr>
             <tr><td><code>doctor</code></td><td>It's not a bug, it's a misconfiguration</td></tr>
+            <tr><td><code>pin</code> / <code>unpin</code></td><td>Freeze a formula to prevent upgrades</td></tr>
+            <tr><td><code>completion</code></td><td>Generate shell completion (bash, zsh, fish)</td></tr>
             <tr><td><code>config</code></td><td>What grew thinks it knows</td></tr>
             <tr><td><code>shellenv</code></td><td>Wire up your shell</td></tr>
             <tr><td><code>help</code></td><td>You got this</td></tr>
@@ -375,21 +383,25 @@ grew doctor                    # check for common problems</code></pre>
             </tr>
             </thead>
             <tbody>
-            <tr><td><code>HOMEGREW_PREFIX</code></td><td><code>~/.grew</code></td><td>The kingdom</td></tr>
-            <tr><td><code>HOMEGREW_APPDIR</code></td><td><code>~/Applications</code></td><td>Where casks live</td></tr>
+            <tr><td><code>HOMEGREW_PREFIX</code></td><td><em>(inferred from binary location)</em></td><td>Root of the grew tree</td></tr>
+            <tr><td><code>HOMEGREW_APPDIR</code></td><td><code>/Applications</code></td><td>Where casks live</td></tr>
             <tr><td><code>HOMEGREW_TAP_VERIFY</code></td><td><code>off</code></td><td>Tap commit signature policy (<code>off</code>, <code>warn</code>, <code>strict</code>)</td></tr>
-            <tr><td><code>HOMEGREW_NO_INSTALL_FROM_API</code></td><td><em>(unset)</em></td><td>Force git clone instead of API tarball for taps</td></tr>
+            <tr><td><code>HOMEGREW_ALLOWED_HOSTS</code></td><td><em>(built-in allowlist)</em></td><td>Additional hosts for SSRF-protected downloads</td></tr>
             </tbody>
         </table>
 
         <h4>Directory Structure</h4>
         <p>Everything flows from the prefix:</p>
-        <pre><code>~/.grew/
+        <pre><code>/opt/homegrew/              (or /usr/local/homegrew on Intel/Linux)
 ├── Cellar/        ← installed packages (each keg has a .MANIFEST.json)
 ├── Taps/          ← formula definitions (git-cloned or API-fetched)
 ├── bin/           ← symlinked binaries
+├── lib/           ← symlinked libraries
+├── include/       ← symlinked headers
+├── opt/           ← per-formula keg symlinks
 ├── etc/           ← trusted-keys (Ed25519 public keys, one per line)
 ├── tmp/           ← ephemeral stuff
+├── var/log/       ← audit log
 └── grew.lock      ← lockfile (opt-in, created by `grew lock`)</code></pre>
     </section>
 
@@ -412,6 +424,7 @@ grew doctor                    # check for common problems</code></pre>
             <tr><td><strong>Install manifests</strong></td><td>Per-file SHA256 snapshot at install time</td><td>None</td></tr>
             <tr><td><strong>Lockfile</strong></td><td>Full dependency tree with hashes</td><td>None</td></tr>
             <tr><td><strong>Integrity check</strong></td><td><code>grew verify</code> + <code>grew doctor</code> snapshot check</td><td>None</td></tr>
+            <tr><td><strong>Vulnerability scanning</strong></td><td><code>grew vuln-scan</code> queries OSV.dev for CVEs, checks signatures and permissions</td><td>None</td></tr>
             <tr><td><strong>HTTPS enforcement</strong></td><td>At parse time — HTTP URLs rejected before download</td><td>At download time</td></tr>
             <tr><td><strong>Path traversal protection</strong></td><td>Validated at cellar, linker, loader, and archive extraction layers</td><td>Partial</td></tr>
             <tr><td><strong>Shell injection prevention</strong></td><td>POSIX shell quoting via <a href="https://pkg.go.dev/al.essio.dev/pkg/shellescape">shellescape</a> for sandbox scripts; systemd and launchd values properly escaped</td><td>N/A</td></tr>
@@ -427,8 +440,9 @@ grew doctor                    # check for common problems</code></pre>
             <h4 style="margin-top: 0;">🛠️ Development</h4>
             <pre style="padding: 10px; font-size: 0.8rem;"><code>make check  # go test -v -race ./...
 make build  # go generate + go build
+make dev    # devmode build (user-local)
 make lint   # golangci-lint</code></pre>
-            <p><strong>Project layout:</strong> packages under <code>internal/</code> (cmd, cellar, formula, cask, linker, depgraph, downloader, tap, sandbox, signing, snapshot, lockfile, service, config, version) and <code>pkg/</code> (validation).</p>
+            <p>Developer builds (<code>make dev</code>) can install to <code>~/.homegrew</code> without root using <code>grew setup --unsafe</code>. See the <a href="https://github.com/homegrew/grew#-development">README</a> for details.</p>
         </div>
 
         <div>
