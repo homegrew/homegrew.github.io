@@ -232,7 +232,11 @@
         <div class="features-grid">
             <div class="feature-card">
                 <div style="font-size: 2rem; margin-bottom: 10px;">📦</div>
-                <p><strong>Formula + cask installs</strong> with SHA256 verification (no funny business)</p>
+                <p><strong>Formula + cask installs</strong> with dual SHA-256/512 verification (no funny business)</p>
+            </div>
+            <div class="feature-card">
+                <div style="font-size: 2rem; margin-bottom: 10px;">⚡</div>
+                <p><strong>Binary delta updates</strong> — self-update uses efficient <code>bspatch</code> patches with pre-update vulnerability scanning</p>
             </div>
             <div class="feature-card">
                 <div style="font-size: 2rem; margin-bottom: 10px;">✍️</div>
@@ -244,7 +248,7 @@
             </div>
             <div class="feature-card">
                 <div style="font-size: 2rem; margin-bottom: 10px;">📋</div>
-                <p><strong>Install snapshots</strong> — per-file SHA256 manifests for tamper detection via <code>grew verify</code></p>
+                <p><strong>Install snapshots</strong> — per-file SHA-256/512 manifests for tamper detection via <code>grew verify</code></p>
             </div>
             <div class="feature-card">
                 <div style="font-size: 2rem; margin-bottom: 10px;">📌</div>
@@ -289,7 +293,7 @@
         <h3>🚀 Getting Started</h3>
 
         <h4>1. Get grew</h4>
-        <p>The fastest way — downloads the latest release binary with SHA256 verification:</p>
+        <p>The fastest way — downloads the latest release binary with dual SHA-256/512 verification:</p>
         <pre><code>go install github.com/homegrew/grew/tools/getgrew@latest
 getgrew
 sudo grew setup</code></pre>
@@ -357,7 +361,7 @@ grew doctor                    # check for common problems</code></pre>
             <tr><td><code>vuln-scan</code></td><td>Scan installed packages for security vulnerabilities</td></tr>
             <tr><td><code>audit</code></td><td>Lint formula/cask definitions for quality and security</td></tr>
             <tr><td><code>lock</code></td><td>Generate, check, or show a reproducible lockfile</td></tr>
-            <tr><td><code>sign</code></td><td>Sign formula SHA256 hashes with an Ed25519 key</td></tr>
+            <tr><td><code>sign</code></td><td>Sign formula checksums with an Ed25519 key</td></tr>
             <tr><td><code>services</code></td><td>Manage background services (start, stop, restart, list)</td></tr>
             <tr><td><code>setup</code></td><td>One-time prefix setup (requires sudo)</td></tr>
             <tr><td><code>alias</code></td><td>Name things your way</td></tr>
@@ -418,11 +422,12 @@ grew doctor                    # check for common problems</code></pre>
             </thead>
             <tbody>
             <tr><td><strong>Bottle signing</strong></td><td>Ed25519 signatures verified against local trust store</td><td>None — HTTPS + SHA256 only</td></tr>
+            <tr><td><strong>Binary delta updates</strong></td><td>SHA-256/512 verified <code>bspatch</code> updates with pre-apply scanning</td><td>None (Full download only)</td></tr>
             <tr><td><strong>Tap verification</strong></td><td>Optional GPG/SSH commit signature enforcement</td><td>None</td></tr>
             <tr><td><strong>Post-install sandbox</strong></td><td>Read-only keg, no network, minimal env</td><td>Unsandboxed</td></tr>
             <tr><td><strong>Source build sandbox</strong></td><td>macOS Seatbelt / Linux bwrap+unshare, no network</td><td>macOS Seatbelt only, no Linux</td></tr>
-            <tr><td><strong>Install manifests</strong></td><td>Per-file SHA256 snapshot at install time</td><td>None</td></tr>
-            <tr><td><strong>Lockfile</strong></td><td>Full dependency tree with hashes</td><td>None</td></tr>
+            <tr><td><strong>Install manifests</strong></td><td>Per-file SHA-256/512 snapshot at install time</td><td>None</td></tr>
+            <tr><td><strong>Lockfile</strong></td><td>Full dependency tree with dual-hashes</td><td>None</td></tr>
             <tr><td><strong>Integrity check</strong></td><td><code>grew verify</code> + <code>grew doctor</code> snapshot check</td><td>None</td></tr>
             <tr><td><strong>Vulnerability scanning</strong></td><td><code>grew vuln-scan</code> queries OSV.dev for CVEs, checks signatures and permissions</td><td>None</td></tr>
             <tr><td><strong>HTTPS enforcement</strong></td><td>At parse time — HTTP URLs rejected before download</td><td>At download time</td></tr>
