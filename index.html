@@ -332,6 +332,32 @@ grew vuln-scan                 # scan for CVEs and integrity issues
 grew lock                      # pin your environment
 grew audit --strict            # lint your formulas
 grew doctor                    # check for common problems</code></pre>
+
+        <h4 style="margin-top: 40px;">🗑️ Uninstallation</h4>
+        <p><code>grew</code> stores most of its data in its prefix directory, but some items (like Cask applications and background services) are linked to system directories. To completely remove <code>grew</code> and all of its traces:</p>
+
+        <h5>1. Clean up installed packages (Casks and Services)</h5>
+        <pre><code># Stop and remove all background services
+for s in $(grew services ls | awk 'NR>1 {print $1}'); do grew services stop $s; done
+
+# Uninstall all macOS casks
+for c in $(grew list --cask | awk '{print $1}'); do grew uninstall --cask $c; done</code></pre>
+
+        <h5>2. Delete the prefix directory</h5>
+        <pre><code># macOS (Apple Silicon):
+sudo rm -rf /opt/homegrew
+
+# macOS (Intel) & Linux:
+sudo rm -rf /usr/local/homegrew
+
+# Devmode (User-local install via --unsafe):
+rm -rf ~/.homegrew</code></pre>
+
+        <h5>3. Clean up your shell profile</h5>
+        <p>Open your shell configuration file (e.g., <code>~/.zshrc</code>, <code>~/.bashrc</code>, or <code>~/.config/fish/config.fish</code>) and remove the line that initializes <code>grew</code>:</p>
+        <pre><code># Remove this line:
+eval "$(/opt/homegrew/bin/grew shellenv)"</code></pre>
+        <p>Restart your terminal, and <code>grew</code> is completely gone.</p>
     </section>
 
     <section id="commands">
