@@ -272,7 +272,7 @@
             </div>
             <div class="feature-card">
                 <div style="font-size: 2rem; margin-bottom: 10px;">🛡️</div>
-                <p><strong>Hardened command execution</strong> — POSIX shell quoting via <a href="https://pkg.go.dev/al.essio.dev/pkg/shellescape">shellescape</a>, <code>--</code> end-of-options on all external commands, XML-safe plists, systemd specifier escaping</p>
+                <p><strong>Hardened command execution</strong> — Shell-free namespace setup with positional parameters, <code>--</code> end-of-options on all external commands, XML-safe plists, systemd specifier escaping</p>
             </div>
             <div class="feature-card">
                 <div style="font-size: 2rem; margin-bottom: 10px;">🧱</div>
@@ -458,7 +458,7 @@ eval "$(/opt/homegrew/bin/grew shellenv)"</code></pre>
             <tr><td><strong>Vulnerability scanning</strong></td><td><code>grew vuln-scan</code> queries OSV.dev for CVEs, checks signatures and permissions</td><td>None</td></tr>
             <tr><td><strong>HTTPS enforcement</strong></td><td>At parse time — HTTP URLs rejected before download</td><td>At download time</td></tr>
             <tr><td><strong>Path traversal protection</strong></td><td>Validated at cellar, linker, loader, and archive extraction layers</td><td>Partial</td></tr>
-            <tr><td><strong>Shell injection prevention</strong></td><td>POSIX shell quoting via <a href="https://pkg.go.dev/al.essio.dev/pkg/shellescape">shellescape</a> for sandbox scripts; systemd and launchd values properly escaped</td><td>N/A</td></tr>
+            <tr><td><strong>Shell injection prevention</strong></td><td>Namespace setup uses positional parameters to eliminate injection risks; systemd and launchd values properly escaped</td><td>N/A</td></tr>
             <tr><td><strong>Zip Slip protection</strong></td><td>Symlink indirection attacks blocked during tar/zip extraction</td><td>Partial</td></tr>
             <tr><td><strong>Command argument hardening</strong></td><td><code>--</code> end-of-options on all external commands (<code>git</code>, <code>systemctl</code>, <code>launchctl</code>, <code>hdiutil</code>, <code>tar</code>, etc.)</td><td>Not consistently applied</td></tr>
             </tbody>
