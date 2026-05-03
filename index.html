@@ -232,7 +232,11 @@
         <div class="features-grid">
             <div class="feature-card">
                 <div style="font-size: 2rem; margin-bottom: 10px;">📦</div>
-                <p><strong>Formula + cask installs</strong> with SHA256 verification (no funny business)</p>
+                <p><strong>Formula + cask installs</strong> with dual SHA-256/512 verification (no funny business)</p>
+            </div>
+            <div class="feature-card">
+                <div style="font-size: 2rem; margin-bottom: 10px;">⚡</div>
+                <p><strong>Binary delta updates</strong> — self-update uses efficient <code>bspatch</code> patches with pre-update vulnerability scanning</p>
             </div>
             <div class="feature-card">
                 <div style="font-size: 2rem; margin-bottom: 10px;">✍️</div>
@@ -244,7 +248,7 @@
             </div>
             <div class="feature-card">
                 <div style="font-size: 2rem; margin-bottom: 10px;">📋</div>
-                <p><strong>Install snapshots</strong> — per-file SHA256 manifests for tamper detection via <code>grew verify</code></p>
+                <p><strong>Install snapshots</strong> — per-file SHA-256/512 manifests for tamper detection via <code>grew verify</code></p>
             </div>
             <div class="feature-card">
                 <div style="font-size: 2rem; margin-bottom: 10px;">🧾</div>
@@ -276,7 +280,7 @@
             </div>
             <div class="feature-card">
                 <div style="font-size: 2rem; margin-bottom: 10px;">🛡️</div>
-                <p><strong>Hardened command execution</strong> — POSIX shell quoting via <a href="https://pkg.go.dev/al.essio.dev/pkg/shellescape">shellescape</a>, <code>--</code> end-of-options on all external commands, XML-safe plists, systemd specifier escaping</p>
+                <p><strong>Hardened command execution</strong> — Shell-free namespace setup with positional parameters, <code>--</code> end-of-options on all external commands, XML-safe plists, systemd specifier escaping</p>
             </div>
             <div class="feature-card">
                 <div style="font-size: 2rem; margin-bottom: 10px;">🧱</div>
@@ -297,7 +301,7 @@
         <h3>🚀 Getting Started</h3>
 
         <h4>1. Get grew</h4>
-        <p>The fastest way — downloads the latest release binary with SHA256 verification:</p>
+        <p>The fastest way — downloads the latest release binary with dual SHA-256/512 verification:</p>
         <pre><code>go install github.com/homegrew/grew/tools/getgrew@latest
 getgrew
 sudo grew setup</code></pre>
@@ -336,6 +340,32 @@ grew vuln-scan                 # scan for CVEs and integrity issues
 grew lock                      # pin your environment
 grew audit --strict            # lint your formulas
 grew doctor                    # check for common problems</code></pre>
+
+        <h4 style="margin-top: 40px;">🗑️ Uninstallation</h4>
+        <p><code>grew</code> stores most of its data in its prefix directory, but some items (like Cask applications and background services) are linked to system directories. To completely remove <code>grew</code> and all of its traces:</p>
+
+        <h5>1. Clean up installed packages (Casks and Services)</h5>
+        <pre><code># Stop and remove all background services
+for s in $(grew services ls | awk 'NR>1 {print $1}'); do grew services stop $s; done
+
+# Uninstall all macOS casks
+for c in $(grew list --cask | awk '{print $1}'); do grew uninstall --cask $c; done</code></pre>
+
+        <h5>2. Delete the prefix directory</h5>
+        <pre><code># macOS (Apple Silicon):
+sudo rm -rf /opt/homegrew
+
+# macOS (Intel) & Linux:
+sudo rm -rf /usr/local/homegrew
+
+# Devmode (User-local install via --unsafe):
+rm -rf ~/.homegrew</code></pre>
+
+        <h5>3. Clean up your shell profile</h5>
+        <p>Open your shell configuration file (e.g., <code>~/.zshrc</code>, <code>~/.bashrc</code>, or <code>~/.config/fish/config.fish</code>) and remove the line that initializes <code>grew</code>:</p>
+        <pre><code># Remove this line:
+eval "$(/opt/homegrew/bin/grew shellenv)"</code></pre>
+        <p>Restart your terminal, and <code>grew</code> is completely gone.</p>
     </section>
 
     <section id="commands">
@@ -365,7 +395,7 @@ grew doctor                    # check for common problems</code></pre>
             <tr><td><code>vuln-scan</code></td><td>Scan installed packages for security vulnerabilities</td></tr>
             <tr><td><code>audit</code></td><td>Lint formula/cask definitions for quality and security</td></tr>
             <tr><td><code>lock</code></td><td>Generate, check, or show a reproducible lockfile</td></tr>
-            <tr><td><code>sign</code></td><td>Sign formula SHA256 hashes with an Ed25519 key</td></tr>
+            <tr><td><code>sign</code></td><td>Sign formula checksums with an Ed25519 key</td></tr>
             <tr><td><code>services</code></td><td>Manage background services (start, stop, restart, list)</td></tr>
             <tr><td><code>setup</code></td><td>One-time prefix setup (requires sudo)</td></tr>
             <tr><td><code>alias</code></td><td>Name things your way</td></tr>
@@ -426,6 +456,7 @@ grew doctor                    # check for common problems</code></pre>
             </thead>
             <tbody>
             <tr><td><strong>Bottle signing</strong></td><td>Ed25519 signatures verified against local trust store</td><td>None — HTTPS + SHA256 only</td></tr>
+            <tr><td><strong>Binary delta updates</strong></td><td>SHA-256/512 verified <code>bspatch</code> updates with pre-apply scanning</td><td>None (Full download only)</td></tr>
             <tr><td><strong>Tap verification</strong></td><td>Optional GPG/SSH commit signature enforcement</td><td>None</td></tr>
             <tr><td><strong>Post-install sandbox</strong></td><td>Read-only keg, no network, minimal env</td><td>Unsandboxed</td></tr>
             <tr><td><strong>Source build sandbox</strong></td><td>macOS Seatbelt / Linux bwrap+unshare, no network</td><td>macOS Seatbelt only, no Linux</td></tr>
@@ -436,7 +467,7 @@ grew doctor                    # check for common problems</code></pre>
             <tr><td><strong>Vulnerability scanning</strong></td><td><code>grew vuln-scan</code> queries OSV.dev for CVEs, checks signatures and permissions</td><td>None</td></tr>
             <tr><td><strong>HTTPS enforcement</strong></td><td>At parse time — HTTP URLs rejected before download</td><td>At download time</td></tr>
             <tr><td><strong>Path traversal protection</strong></td><td>Validated at cellar, linker, loader, and archive extraction layers</td><td>Partial</td></tr>
-            <tr><td><strong>Shell injection prevention</strong></td><td>POSIX shell quoting via <a href="https://pkg.go.dev/al.essio.dev/pkg/shellescape">shellescape</a> for sandbox scripts; systemd and launchd values properly escaped</td><td>N/A</td></tr>
+            <tr><td><strong>Shell injection prevention</strong></td><td>Namespace setup uses positional parameters to eliminate injection risks; systemd and launchd values properly escaped</td><td>N/A</td></tr>
             <tr><td><strong>Zip Slip protection</strong></td><td>Symlink indirection attacks blocked during tar/zip extraction</td><td>Partial</td></tr>
             <tr><td><strong>Command argument hardening</strong></td><td><code>--</code> end-of-options on all external commands (<code>git</code>, <code>systemctl</code>, <code>launchctl</code>, <code>hdiutil</code>, <code>tar</code>, etc.)</td><td>Not consistently applied</td></tr>
             </tbody>
