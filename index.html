@@ -247,12 +247,20 @@
                 <p><strong>Install snapshots</strong> — per-file SHA256 manifests for tamper detection via <code>grew verify</code></p>
             </div>
             <div class="feature-card">
+                <div style="font-size: 2rem; margin-bottom: 10px;">🧾</div>
+                <p><strong>Installation receipts</strong> — stores build options, dependencies, and provenance metadata in the keg</p>
+            </div>
+            <div class="feature-card">
                 <div style="font-size: 2rem; margin-bottom: 10px;">📌</div>
                 <p><strong>Lockfile</strong> — pin exact versions, hashes, and dependency trees for reproducible environments</p>
             </div>
             <div class="feature-card">
                 <div style="font-size: 2rem; margin-bottom: 10px;">🔗</div>
                 <p><strong>Deterministic linking</strong> with opt symlinks and dry-run support (look before you link)</p>
+            </div>
+            <div class="feature-card">
+                <div style="font-size: 2rem; margin-bottom: 10px;">🔄</div>
+                <p><strong>Keg relocation</strong> — rewrites hardcoded library paths in bottles at install time via <code>install_name_tool</code> (macOS) and <code>patchelf</code> (Linux)</p>
             </div>
             <div class="feature-card">
                 <div style="font-size: 2rem; margin-bottom: 10px;">🌳</div>
@@ -422,6 +430,7 @@ grew doctor                    # check for common problems</code></pre>
             <tr><td><strong>Post-install sandbox</strong></td><td>Read-only keg, no network, minimal env</td><td>Unsandboxed</td></tr>
             <tr><td><strong>Source build sandbox</strong></td><td>macOS Seatbelt / Linux bwrap+unshare, no network</td><td>macOS Seatbelt only, no Linux</td></tr>
             <tr><td><strong>Install manifests</strong></td><td>Per-file SHA256 snapshot at install time</td><td>None</td></tr>
+            <tr><td><strong>Installation receipts</strong></td><td>Provenance and dependency metadata stored alongside the manifest</td><td>Metadata stored in <code>INSTALL_RECEIPT.json</code></td></tr>
             <tr><td><strong>Lockfile</strong></td><td>Full dependency tree with hashes</td><td>None</td></tr>
             <tr><td><strong>Integrity check</strong></td><td><code>grew verify</code> + <code>grew doctor</code> snapshot check</td><td>None</td></tr>
             <tr><td><strong>Vulnerability scanning</strong></td><td><code>grew vuln-scan</code> queries OSV.dev for CVEs, checks signatures and permissions</td><td>None</td></tr>
