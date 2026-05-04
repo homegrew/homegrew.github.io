@@ -491,6 +491,10 @@ make build  # go generate + go build
 make dev    # devmode build (user-local)
 make lint   # golangci-lint</code></pre>
             <p>Developer builds (<code>make dev</code>) can install to <code>~/.homegrew</code> without root using <code>grew setup --unsafe</code>. See the <a href="https://github.com/homegrew/grew#-development">README</a> for details.</p>
+            <h4 style="margin-top: 15px; font-size: 1.1rem;">🛠️ Release Tools</h4>
+            <p style="font-size: 0.9rem;"><code>grew</code> ships with a standalone <code>patcher</code> tool to generate and verify multi-hop binary updates:</p>
+            <pre style="padding: 10px; font-size: 0.8rem;"><code>patcher -v -D dist/ v1.0 v1.1 # Generate patches
+patcher -U v1.0 v1.2          # Verify upgrade path</code></pre>
         </div>
 
         <div>
