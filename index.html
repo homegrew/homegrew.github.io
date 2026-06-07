@@ -204,6 +204,7 @@
             <a href="#security">Security</a>
             <a href="#install">Install</a>
             <a href="#commands">Commands</a>
+            <a href="#roadmap">Roadmap</a>
             <a href="https://github.com/homegrew/grew" target="_blank">GitHub</a>
         </div>
     </div>
@@ -232,7 +233,7 @@
         <div class="features-grid">
             <div class="feature-card">
                 <div style="font-size: 2rem; margin-bottom: 10px;">📦</div>
-                <p><strong>Formula + cask installs</strong> with dual SHA-256/512 verification (no funny business)</p>
+                <p><strong>Formula + cask installs</strong> with SHA256 verification (no funny business)</p>
             </div>
             <div class="feature-card">
                 <div style="font-size: 2rem; margin-bottom: 10px;">🚰</div>
@@ -240,31 +241,63 @@
             </div>
             <div class="feature-card">
                 <div style="font-size: 2rem; margin-bottom: 10px;">⚡</div>
-                <p><strong>Multi-hop binary delta updates</strong> — <code>selfupdate</code> applies sequences of intermediate patches to reach the latest version seamlessly</p>
+                <p><strong>Multi-hop binary delta updates</strong> — <code>selfupdate</code> uses <code>bspatch</code> to seamlessly apply sequences of intermediate patches to reach the latest version, saving bandwidth, with an automated CI <code>patcher</code> tool for releases and <code>-U</code> upgrade path verification</p>
+            </div>
+            <div class="feature-card">
+                <div style="font-size: 2rem; margin-bottom: 10px;">🔐</div>
+                <p><strong>Dual-hash verification</strong> — self-updates and release assets are verified against both SHA256 and SHA512 to prevent single-algorithm collision attacks</p>
             </div>
             <div class="feature-card">
                 <div style="font-size: 2rem; margin-bottom: 10px;">✍️</div>
-                <p><strong>Ed25519 bottle signing</strong> — cryptographic signatures verified against a local trust store</p>
+                <p><strong>Ed25519 bottle signing</strong> — cryptographic signatures on downloads, verified against a local trust store</p>
+            </div>
+            <div class="feature-card">
+                <div style="font-size: 2rem; margin-bottom: 10px;">🏷️</div>
+                <p><strong>Signed tap verification</strong> — refuse or warn on unsigned git commits in tap repos (<code>HOMEGREW_TAP_VERIFY</code>)</p>
             </div>
             <div class="feature-card">
                 <div style="font-size: 2rem; margin-bottom: 10px;">🔒</div>
-                <p><strong>Sandboxed builds &amp; post-install</strong> — macOS Seatbelt enforcement, network denied, keg read-only for post-install</p>
+                <p><strong>Sandboxed source builds</strong> — macOS Seatbelt to keep your system safe</p>
+            </div>
+            <div class="feature-card">
+                <div style="font-size: 2rem; margin-bottom: 10px;">🔒</div>
+                <p><strong>Sandboxed post-install scripts</strong> — keg is read-only, network denied, minimal env (Homebrew runs these unsandboxed)</p>
             </div>
             <div class="feature-card">
                 <div style="font-size: 2rem; margin-bottom: 10px;">📋</div>
                 <p><strong>Install snapshots</strong> — per-file SHA-256 manifests (<code>.MANIFEST.json</code>) recorded at install time for integrity verification</p>
             </div>
             <div class="feature-card">
+                <div style="font-size: 2rem; margin-bottom: 10px;">🧾</div>
+                <p><strong>Installation receipts</strong> — stores build options, dependencies, and provenance metadata (<code>INSTALL_RECEIPT.json</code>) in the keg for future reference</p>
+            </div>
+            <div class="feature-card">
                 <div style="font-size: 2rem; margin-bottom: 10px;">📌</div>
                 <p><strong>Lockfile</strong> — pin exact versions, hashes, and dependency trees for reproducible environments</p>
             </div>
             <div class="feature-card">
+                <div style="font-size: 2rem; margin-bottom: 10px;">🔗</div>
+                <p><strong>Deterministic linking</strong> with opt symlinks and dry-run support (look before you link)</p>
+            </div>
+            <div class="feature-card">
                 <div style="font-size: 2rem; margin-bottom: 10px;">🔄</div>
-                <p><strong>Keg relocation</strong> — rewrites hardcoded library paths in bottles at install time via <code>install_name_tool</code> or <code>patchelf</code></p>
+                <p><strong>Keg relocation</strong> — rewrites hardcoded library paths in bottles at install time via <code>install_name_tool</code>, so binaries just work without <code>DYLD_LIBRARY_PATH</code> hacks</p>
+            </div>
+            <div class="feature-card">
+                <div style="font-size: 2rem; margin-bottom: 10px;">🌳</div>
+                <p><strong>Dependency resolver</strong> with an optional tree view (for the visually inclined)</p>
             </div>
             <div class="feature-card">
                 <div style="font-size: 2rem; margin-bottom: 10px;">🩺</div>
-                <p><strong>Doctor + audit</strong> — checks perms, HTTPS, broken links, snapshot integrity, and formula quality</p>
+                <p><strong>Doctor + audit</strong> — checks perms, HTTPS, broken links, snapshot integrity, stale kegs, and cask notarization</p>
+            </div>
+            <div class="feature-card">
+                <div style="font-size: 2rem; margin-bottom: 10px;">🛡️</div>
+                <p><strong>Hardened command execution</strong> — <code>--</code> end-of-options on all external commands, shell-free namespace setup with positional parameters, XML-safe plist generation</p>
+            </div>
+            <div class="feature-card">
+                <div style="font-size: 2rem; margin-bottom: 10px;">🧱</div>
+                <p><strong>Zip Slip protection</strong> — archive extraction validates symlink indirection to prevent writes outside the destination</p>
             </div>
             <div class="feature-card">
                 <div style="font-size: 2rem; margin-bottom: 10px;">🔍</div>
@@ -272,27 +305,19 @@
             </div>
             <div class="feature-card">
                 <div style="font-size: 2rem; margin-bottom: 10px;">🛡️</div>
-                <p><strong>macOS Quarantine</strong> — automatically applies <code>com.apple.quarantine</code> attributes to downloaded apps and binaries</p>
-            </div>
-            <div class="feature-card">
-                <div style="font-size: 2rem; margin-bottom: 10px;">🎨</div>
-                <p><strong>Colorful output</strong> — ANSI-colored output with automatic TTY detection for a polished aesthetic</p>
-            </div>
-            <div class="feature-card">
-                <div style="font-size: 2rem; margin-bottom: 10px;">🧱</div>
-                <p><strong>Zip Slip protection</strong> — archive extraction validates symlink indirection to prevent writes outside the destination</p>
-            </div>
-            <div class="feature-card">
-                <div style="font-size: 2rem; margin-bottom: 10px;">🧾</div>
-                <p><strong>Installation receipts</strong> — stores build options, dependencies, and provenance metadata in the keg</p>
+                <p><strong>macOS Quarantine</strong> — automatically applies <code>com.apple.quarantine</code> attributes to downloaded apps and binaries, ensuring Gatekeeper protection is active</p>
             </div>
             <div class="feature-card">
                 <div style="font-size: 2rem; margin-bottom: 10px;">🪵</div>
-                <p><strong>Structured logging</strong> via <code>log/slog</code> with CLI-friendly output — DEBUG, INFO, WARN, ERROR levels</p>
+                <p><strong>Structured logging</strong> via <code>log/slog</code> with CLI-friendly output (DEBUG/INFO/WARN/ERROR levels, <code>-v</code>/<code>-d</code>/<code>-q</code> flags). Debug logs include source file and line number context.</p>
+            </div>
+            <div class="feature-card">
+                <div style="font-size: 2rem; margin-bottom: 10px;">🎨</div>
+                <p><strong>Colorful output</strong> — ANSI-colored output with automatic TTY detection for a polished, Homebrew-like aesthetic</p>
             </div>
             <div class="feature-card">
                 <div style="font-size: 2rem; margin-bottom: 10px;">🐚</div>
-                <p><strong>Alias + shellenv helpers</strong> — manage daemons, name things your way, and wire up your shell with snappy aliases</p>
+                <p><strong>Alias + shellenv helpers</strong> so your workflows stay snappy (<code>i</code>, <code>rm</code>, <code>ls</code>, <code>up</code>, <code>ug</code>, <code>dr</code>)</p>
             </div>
         </div>
     </section>
@@ -301,7 +326,7 @@
         <h3>🚀 Getting Started</h3>
 
         <h4>1. Get grew</h4>
-        <p>Download the latest release for your platform, extract it, and run setup:</p>
+        <p>Download the latest release for your platform from the <a href="https://github.com/homegrew/grew/releases/latest" target="_blank">Releases</a> page, extract it, and run setup:</p>
         <pre><code># Download from GitHub Releases
 tar -xzf grew_*.tar.gz
 ./grew setup</code></pre>
@@ -310,11 +335,12 @@ tar -xzf grew_*.tar.gz
         <p><strong>Prerequisites:</strong> Go 1.26+, <code>git</code>, and a dream.</p>
         <pre><code>git clone https://github.com/homegrew/grew.git
 cd grew
-make build          # or: go generate ./internal/... && go build -o grew</code></pre>
+make build          # or: go generate ./pkg/... && go build -o grew</code></pre>
 
         <h4>2. Set up the prefix</h4>
-        <p>grew needs a home — a directory tree for the Cellar, symlinks, taps, and config:</p>
-        <pre><code>sudo ./grew setup   # macOS ARM → /opt/homegrew, Intel/Linux → /usr/local/homegrew</code></pre>
+        <p>grew needs a home — a directory tree for the Cellar, symlinks, taps, and config. The <code>setup</code> command creates it and copies the binary into place:</p>
+        <pre><code>./grew setup   # macOS ARM → /opt/homegrew, Intel → /usr/local/homegrew</code></pre>
+        <p>The system prefix isolates sandboxed builds from <code>$HOME</code>, preventing them from reaching <code>~/.ssh</code>, <code>~/.gnupg</code>, or other sensitive dotfiles. After setup, ownership is transferred to your user — no root needed at runtime.</p>
         <p>Developer builds (<code>make dev</code>) can install to <code>~/.homegrew</code> without root using <code>./grew setup --unsafe</code>.</p>
 
         <h4>3. Wire up your shell</h4>
@@ -326,20 +352,34 @@ grew shellenv fish | source</code></pre>
 
         <h4>4. Install something</h4>
         <pre><code>grew i jq                      # 'i' is an alias for 'install'
-grew install -s ldns           # build from source, like a purist
 grew install --cask firefox    # going big</code></pre>
         <p><em>That's it. No dark rituals. No 47-step setup guide.</em></p>
 
         <h4 style="margin-top: 40px;">📖 Day-to-day usage</h4>
-        <pre><code>grew link jq                   # stitch it in
+        <pre><code>grew i jq nmap                 # install multiple formulas (alias 'i')
+grew install --force jq        # force reinstall even if already installed
+grew install -s ldns           # build from source, like a purist
+grew install --force-bottle jq # pour a bottle (current or newest macOS), never build
+grew install --cask firefox    # going big
+grew link jq                   # stitch it in
 grew deps --tree jq            # what hath jq wrought
 grew up                        # stay fresh (alias for update)
 grew ug                        # upgrade all (alias for upgrade)
+grew version                   # what are we running
+grew autoremove --dry-run      # see which orphaned dependencies would be removed
 grew autoremove                # clean up unused dependencies
+grew rm --force jq             # uninstall even if not installed (alias 'rm')
+grew cleanup -n                # peek before you sweep
+grew cleanup --scrub           # aggressive cache cleaning
+grew cleanup --prune=7         # remove cache older than a week
 grew verify jq                 # check installed files against manifest
-grew vuln-scan                 # scan for CVEs and integrity issues
+grew vuln-scan -q              # scan for CVEs, only show critical/high severity findings
 grew lock                      # pin your environment
 grew audit --strict            # lint your formulas
+grew cache                     # show download cache
+grew cache jq                  # show cache path for jq
+grew cache --os=darwin jq      # show cache path for a different OS
+grew leaves -r | xargs grew uninstall  # uninstall all top-level packages installed on request
 grew dr                        # check for common problems (alias for doctor)</code></pre>
 
         <h4 style="margin-top: 40px;">🗑️ Uninstallation</h4>
@@ -356,7 +396,7 @@ for c in $(grew list --cask | awk '{print $1}'); do grew uninstall --cask $c; do
         <pre><code># macOS (Apple Silicon):
 sudo rm -rf /opt/homegrew
 
-# macOS (Intel) & Linux:
+# macOS (Intel):
 sudo rm -rf /usr/local/homegrew
 
 # Devmode (User-local install via --unsafe):
@@ -379,36 +419,42 @@ eval "$(/opt/homegrew/bin/grew shellenv)"</code></pre>
             </tr>
             </thead>
             <tbody>
-            <tr><td><code>install</code>, <code>i</code></td><td>Install a formula or cask (<code>-s</code> to build from source, <code>-f</code> to force)</td></tr>
-            <tr><td><code>uninstall</code>, <code>rm</code></td><td>Send it to the void (<code>-f</code> to ignore missing)</td></tr>
-            <tr><td><code>autoremove</code></td><td>Uninstall formulae that are no longer needed (no longer a dependency)</td></tr>
-            <tr><td><code>reinstall</code></td><td>Uninstall + install from scratch</td></tr>
+            <tr><td><code>install</code>, <code>i</code></td><td>Install formulas or casks (<code>-f</code> to force, <code>-s</code> to build from source, <code>--force-bottle</code> to force a bottle)</td></tr>
+            <tr><td><code>uninstall</code>, <code>rm</code></td><td>Send formulas or casks to the void (<code>-f</code> to ignore missing or errors, delete all versions)</td></tr>
+            <tr><td><code>autoremove</code></td><td>Transitively uninstall formulae that were only installed as a dependency and are no longer needed — removes the full orphan chain in one run (<code>--dry-run</code> supported)</td></tr>
+            <tr><td><code>reinstall</code></td><td>Uninstall + install from scratch (<code>--cask</code>, <code>-f</code> without checking for previously installed keg-only or non-migrated versions)</td></tr>
             <tr><td><code>list</code>, <code>ls</code></td><td>See what you've collected</td></tr>
-            <tr><td><code>leaves</code></td><td>List installed formulas that are not dependencies of others</td></tr>
-            <tr><td><code>info</code>, <code>abv</code></td><td>Stalk a package</td></tr>
+            <tr><td><code>leaves</code></td><td>List installed formulas that are not dependencies of another installed formula (<code>-r</code> for explicitly requested, <code>-p</code> for orphaned dependencies)</td></tr>
+            <tr><td><code>info</code></td><td>Stalk packages</td></tr>
             <tr><td><code>search</code></td><td>Find the thing</td></tr>
-            <tr><td><code>link</code></td><td>Weave a formula into your PATH</td></tr>
+            <tr><td><code>link</code></td><td>Weave formulas into your PATH</td></tr>
             <tr><td><code>unlink</code></td><td>Cut the thread</td></tr>
             <tr><td><code>update</code>, <code>up</code></td><td>Refresh tap definitions</td></tr>
             <tr><td><code>upgrade</code>, <code>ug</code></td><td>Get the new hotness</td></tr>
             <tr><td><code>outdated</code></td><td>The hall of shame</td></tr>
-            <tr><td><code>cleanup</code></td><td>Marie Kondo your Cellar (<code>--scrub</code> for aggressive cleaning)</td></tr>
+            <tr><td><code>cleanup</code></td><td>Remove old versions and prune download cache (<code>-s</code> to scrub all, <code>--prune=DAYS</code>)</td></tr>
             <tr><td><code>deps</code></td><td>Dependency spelunking (<code>--tree</code> for the visual view)</td></tr>
             <tr><td><code>verify</code></td><td>Check installed packages against their snapshot manifests</td></tr>
             <tr><td><code>vuln-scan</code></td><td>Scan installed packages for security vulnerabilities (OSV.dev)</td></tr>
             <tr><td><code>audit</code></td><td>Lint formula/cask definitions for quality and security</td></tr>
+            <tr><td><code>create &lt;url&gt;</code></td><td>Scaffold a new formula from a URL (infers name, version, and SHA256)</td></tr>
+            <tr><td><code>homepage &lt;formula&gt;</code></td><td>Open a formula or cask's homepage in the default browser</td></tr>
+            <tr><td><code>uses &lt;formula&gt;</code></td><td>Show installed formulae that depend on the specified formula</td></tr>
+            <tr><td><code>tap &lt;user/repo&gt;</code></td><td>Add a formula repository</td></tr>
+            <tr><td><code>untap &lt;user/repo&gt;</code></td><td>Remove a tapped formula repository</td></tr>
+            <tr><td><code>linkage &lt;formula&gt;</code></td><td>Inspect dynamic library dependencies for an installed formula</td></tr>
             <tr><td><code>lock</code></td><td>Generate, check, or show a reproducible lockfile</td></tr>
             <tr><td><code>sign</code></td><td>Sign formula checksums with an Ed25519 key</td></tr>
             <tr><td><code>services</code></td><td>Manage background services (start, stop, restart, list)</td></tr>
             <tr><td><code>setup</code></td><td>One-time prefix setup (requires sudo unless <code>--unsafe</code>)</td></tr>
             <tr><td><code>alias</code></td><td>Name things your way</td></tr>
             <tr><td><code>doctor</code>, <code>dr</code></td><td>It's not a bug, it's a misconfiguration</td></tr>
-            <tr><td><code>pin</code> / <code>unpin</code></td><td>Freeze a formula to prevent upgrades</td></tr>
+            <tr><td><code>pin</code> / <code>unpin</code></td><td>Freeze formulas to prevent upgrades</td></tr>
             <tr><td><code>completion</code></td><td>Generate shell completion (bash, zsh, fish)</td></tr>
+            <tr><td><code>cache</code></td><td>Display download cache root or specific package cache paths</td></tr>
             <tr><td><code>config</code></td><td>What grew thinks it knows</td></tr>
             <tr><td><code>shellenv</code></td><td>Wire up your shell</td></tr>
             <tr><td><code>version</code></td><td>Print version and exit</td></tr>
-            <tr><td><code>--cache</code></td><td>Display download cache root or specific package paths</td></tr>
             <tr><td><code>help</code></td><td>You got this</td></tr>
             </tbody>
         </table>
@@ -436,7 +482,7 @@ eval "$(/opt/homegrew/bin/grew shellenv)"</code></pre>
 
         <h4>Directory Structure</h4>
         <p>Everything flows from the prefix:</p>
-        <pre><code>/opt/homegrew/              (or /usr/local/homegrew on Intel/Linux)
+        <pre><code>/opt/homegrew/              (or /usr/local/homegrew on Intel)
 ├── Cellar/        ← installed packages (each keg has a .MANIFEST.json)
 ├── Taps/          ← formula definitions (git-cloned or API-fetched)
 ├── bin/           ← symlinked binaries
@@ -464,33 +510,48 @@ eval "$(/opt/homegrew/bin/grew shellenv)"</code></pre>
             <tr><td><strong>Bottle signing</strong></td><td>Ed25519 signatures verified against local trust store</td><td>None — relies on HTTPS + SHA256 only</td></tr>
             <tr><td><strong>Tap verification</strong></td><td>Optional GPG/SSH commit signature enforcement (<code>HOMEGREW_TAP_VERIFY</code>)</td><td>None</td></tr>
             <tr><td><strong>Post-install sandbox</strong></td><td>Read-only keg, no network, minimal env</td><td>Unsandboxed</td></tr>
-            <tr><td><strong>Source build sandbox</strong></td><td>macOS Seatbelt / Linux namespaces, no network</td><td>macOS Seatbelt only, no Linux sandbox</td></tr>
-            <tr><td><strong>Dual-hash verification</strong></td><td>Self-updates and assets use both SHA256 and SHA512</td><td>SHA256 only</td></tr>
+            <tr><td><strong>Source build sandbox</strong></td><td>macOS Seatbelt, no network</td><td>macOS Seatbelt only</td></tr>
+            <tr><td><strong>Dual-hash verification</strong></td><td>Self-updates and release assets use both SHA256 and SHA512</td><td>None</td></tr>
             <tr><td><strong>Self-update health check</strong></td><td>Patched binaries are execution-tested in a sandbox before replacement</td><td>None</td></tr>
             <tr><td><strong>Install manifests</strong></td><td>Per-file SHA256 snapshot (<code>.MANIFEST.json</code>) at install time</td><td>None</td></tr>
-            <tr><td><strong>Installation receipts</strong></td><td>Provenance and dependency metadata stored alongside the manifest</td><td>Metadata stored in <code>INSTALL_RECEIPT.json</code></td></tr>
-            <tr><td><strong>Lockfile</strong></td><td>Full dependency tree with exact hashes</td><td>None</td></tr>
+            <tr><td><strong>Installation receipts</strong></td><td>Provenance and dependency metadata (<code>INSTALL_RECEIPT.json</code>) stored alongside the manifest</td><td>Metadata stored in <code>INSTALL_RECEIPT.json</code></td></tr>
+            <tr><td><strong>Lockfile</strong></td><td>Full dependency tree with hashes</td><td>None</td></tr>
             <tr><td><strong>Integrity check</strong></td><td><code>grew verify</code> + <code>grew doctor</code> snapshot check</td><td>None</td></tr>
-            <tr><td><strong>Vulnerability scanning</strong></td><td>Integrated <code>vuln-scan</code> via OSV.dev</td><td>None (requires external tools)</td></tr>
-            <tr><td><strong>macOS Quarantine</strong></td><td>Automatically applies <code>com.apple.quarantine</code> to all downloads</td><td>None</td></tr>
+            <tr><td><strong>Vulnerability scanning</strong></td><td>Integrated <code>vuln-scan</code> powered by OSV.dev</td><td>Requires external gems/tools</td></tr>
+            <tr><td><strong>macOS Quarantine</strong></td><td>Automatically applies <code>com.apple.quarantine</code> to all downloads via LaunchServices</td><td>None</td></tr>
             <tr><td><strong>HTTPS enforcement</strong></td><td>At parse time — HTTP URLs rejected before download</td><td>At download time</td></tr>
-            <tr><td><strong>Path traversal protection</strong></td><td>Validated at cellar, linker, and archive extraction layers</td><td>Partial</td></tr>
-            <tr><td><strong>Shell injection prevention</strong></td><td>Namespace setup uses positional parameters; systemd/launchd values escaped</td><td>N/A</td></tr>
-            <tr><td><strong>Zip Slip protection</strong></td><td>Symlink indirection attacks blocked during extraction</td><td>Partial</td></tr>
-            <tr><td><strong>Command hardening</strong></td><td><code>--</code> end-of-options on all external commands (git, tar, etc.)</td><td>Not consistently applied</td></tr>
+            <tr><td><strong>Path traversal protection</strong></td><td>Validated at cellar, linker, loader, and archive extraction layers</td><td>Partial</td></tr>
+            <tr><td><strong>Shell injection prevention</strong></td><td>Namespace setup uses positional parameters to eliminate injection risks; systemd <code>ExecStart</code> and launchd plist values properly escaped</td><td>N/A</td></tr>
+            <tr><td><strong>Zip Slip protection</strong></td><td>Symlink indirection attacks blocked during tar/zip extraction</td><td>Partial</td></tr>
+            <tr><td><strong>Command hardening</strong></td><td><code>--</code> end-of-options on all external commands (<code>git</code>, <code>systemctl</code>, <code>launchctl</code>, <code>hdiutil</code>, <code>tar</code>, etc.)</td><td>Not consistently applied</td></tr>
             </tbody>
         </table>
-        <p><strong>Gradual rollout:</strong> signature verification doesn't block installs until you add keys to <code>etc/trusted-keys</code>. Adopt security features at your own pace.</p>
+        <p><strong>Gradual rollout:</strong> signature verification doesn't block installs until you add keys to <code>etc/trusted-keys</code>. Tap verification is opt-in via <code>HOMEGREW_TAP_VERIFY</code>. This lets you adopt security features incrementally.</p>
+    </section>
+
+    <section id="roadmap">
+        <h3>🗺️ Roadmap</h3>
+        <p>Got ideas? Bugs? Grievances? → <a href="https://github.com/homegrew/grew/issues" target="_blank">Open an issue</a></p>
+        <p>Hot takes on the list:</p>
+        <ul>
+            <li>Build vs Runtime Dependency distinction</li>
+            <li>SLSA provenance attestations for bottles</li>
+            <li>Content-addressable bottle storage</li>
+            <li>Windows support (one day, probably, maybe)</li>
+        </ul>
     </section>
 
     <div class="bottom-grid">
         <div>
             <h4 style="margin-top: 0;">🛠️ Development</h4>
-            <pre style="padding: 10px; font-size: 0.8rem;"><code>make check  # go test -v -race ./...
-make build  # go generate + go build
-make dev    # devmode build (user-local)
-make lint   # golangci-lint</code></pre>
-            <p>Developer builds (<code>make dev</code>) can install to <code>~/.homegrew</code> without root using <code>grew setup --unsafe</code>. See the <a href="https://github.com/homegrew/grew#-development">README</a> for details.</p>
+            <pre style="padding: 10px; font-size: 0.8rem;"><code>make test-unit        # run unit tests
+make test-smoke       # run quick health checks
+make test-integration # run command-level integration tests
+make test-e2e         # run full lifecycle E2E tests
+make check-all        # run all of the above
+make build            # go generate + go build
+make dev              # devmode build (user-local)</code></pre>
+            <p>Developer builds (<code>make dev</code>) can install to <code>~/.homegrew</code> without root using <code>grew setup --unsafe</code>. See the <a href="https://github.com/homegrew/grew#-development" target="_blank">README</a> for details.</p>
             <h4 style="margin-top: 15px; font-size: 1.1rem;">🛠️ Release Tools</h4>
             <p style="font-size: 0.9rem;"><code>grew</code> ships with a standalone <code>patcher</code> tool to generate and verify multi-hop binary updates:</p>
             <pre style="padding: 10px; font-size: 0.8rem;"><code>patcher -v -D dist/ v1.0 v1.1 # Generate patches
@@ -501,22 +562,22 @@ patcher -U v1.0 v1.2          # Verify upgrade path</code></pre>
             <h4 style="margin-top: 0;">🤝 Contributing</h4>
             <ol style="margin-left: 20px;">
                 <li>Fork it</li>
-                <li>Branch it (<code>git checkout -b feature/cool-thing</code>)</li>
-                <li>Commit it</li>
-                <li>Push it</li>
+                <li>Branch it (<code>git checkout -b feature/your-cool-thing</code>)</li>
+                <li>Commit it (<code>git commit -m "Add the cool thing"</code>)</li>
+                <li>Push it (<code>git push origin feature/your-cool-thing</code>)</li>
                 <li>PR it</li>
             </ol>
             <p><em>PRs welcome. Drama not so much.</em></p>
         </div>
 
         <div>
-            <h4 style="margin-top: 0;">📬 Links & Info</h4>
+            <h4 style="margin-top: 0;">📬 Links &amp; Info</h4>
             <ul>
-                <li><a href="https://github.com/homegrew/grew/issues">Open an issue / Roadmap</a></li>
-                <li><a href="https://github.com/homegrew/grew">Project on GitHub</a></li>
+                <li><a href="https://github.com/homegrew/grew/issues" target="_blank">Open an issue / Roadmap</a></li>
+                <li><a href="https://github.com/homegrew/grew" target="_blank">Project on GitHub</a></li>
             </ul>
-            <p><strong>Acknowledgments:</strong> Best-README-Template, and everyone who ever squinted at a wall of package manager output and thought <em>"there has to be a better way"</em>.</p>
-            <p><strong>License:</strong> (Add a LICENSE to your repo!)</p>
+            <p><strong>License:</strong> MIT License — see the <a href="https://github.com/homegrew/grew/blob/main/LICENSE" target="_blank">LICENSE</a> file for details.</p>
+            <p><strong>Acknowledgments:</strong> <a href="https://github.com/othneildrew/Best-README-Template" target="_blank">Best-README-Template</a>, and everyone who ever squinted at a wall of package manager output and thought <em>"there has to be a better way"</em>.</p>
         </div>
     </div>
 
